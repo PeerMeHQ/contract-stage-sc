@@ -14,7 +14,7 @@ pub trait ConfigModule {
     #[storage_mapper("devs")]
     fn developers(&self, entity: &ManagedAddress) -> UnorderedSetMapper<UserId>;
 
-    #[storage_mapper("developers")]
+    #[storage_mapper("contracts")]
     fn contracts(&self, entity: &ManagedAddress) -> UnorderedSetMapper<ManagedAddress>;
 
     #[view(getContractLock)]
