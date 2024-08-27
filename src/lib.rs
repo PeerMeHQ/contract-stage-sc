@@ -8,7 +8,7 @@ pub mod errors;
 pub mod contract;
 
 #[multiversx_sc::contract]
-pub trait ContractState: config::ConfigModule + events::EventsModule {
+pub trait ContractState: contract::ContractModule + config::ConfigModule + events::EventsModule {
     #[init]
     fn init(&self) {}
 
