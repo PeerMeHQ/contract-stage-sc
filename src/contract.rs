@@ -28,7 +28,7 @@ pub trait ContractModule: config::ConfigModule + events::EventsModule {
             self.lock_contract(&entity, &contract);
         }
 
-        self.emit_contract_locked_event(&entity, &contract);
+        self.emit_contract_staged_event(&entity, &contract);
     }
 
     #[endpoint(unlockStage)]
