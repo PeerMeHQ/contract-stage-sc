@@ -21,14 +21,14 @@ pub trait ContractModule: config::ConfigModule + events::EventsModule {
         if contract.is_zero() {
             let (new_contract, _) = self.send_raw().deploy_contract(gas, &value, &code, code_metadata, &args_buffer);
             self.lock_contract(&entity, &new_contract);
+            self.emit_contract_staged_event(&entity, &new_contract);
         } else {
             require!(self.contracts(&entity).contains(&contract), "contract is not registered");
 
             self.send_raw().upgrade_contract(&contract, gas, &value, &code, code_metadata, &args_buffer);
             self.lock_contract(&entity, &contract);
+            self.emit_contract_staged_event(&entity, &contract);
         }
-
-        self.emit_contract_staged_event(&entity, &contract);
     }
 
     #[endpoint(unlockStage)]
