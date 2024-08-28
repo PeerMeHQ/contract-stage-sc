@@ -12,7 +12,7 @@ pub trait ContractModule: config::ConfigModule + events::EventsModule {
 
         require!(self.entities().contains(&entity), "entity is not registered");
         require!(self.developers(&entity).contains(&user), "caller is not developer");
-        require!(self.is_contract_locked(&entity, &contract), "contract is locked");
+        require!(!self.is_contract_locked(&entity, &contract), "contract is locked");
 
         let args_buffer = args.to_arg_buffer();
         let gas = self.blockchain().get_gas_left();
