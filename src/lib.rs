@@ -18,7 +18,7 @@ pub trait ContractStage: contract::ContractModule + config::ConfigModule + event
     #[endpoint(register)]
     fn register_endpoint(&self, developers: MultiValueEncoded<ManagedAddress>) {
         let entity = self.blockchain().get_caller();
-        require!(self.entities().contains(&entity), "entity is already registered");
+        require!(!self.entities().contains(&entity), "entity is already registered");
         require!(self.blockchain().is_smart_contract(&entity), "entity must be contract");
         require!(developers.len() > 0, "developers must be provided");
 
