@@ -6,7 +6,7 @@ multiversx_sc::imports!();
 #[multiversx_sc::module]
 pub trait ContractModule: config::ConfigModule + events::EventsModule {
     #[endpoint(stageContract)]
-    fn stage_contract_endpoint(&self, entity: ManagedAddress, contract: ManagedAddress, code: ManagedBuffer, code_metadata: CodeMetadata, args: MultiValueEncoded<ManagedBuffer>) {
+    fn stage_contract_endpoint(&self, entity: ManagedAddress, contract: ManagedAddress, code: ManagedBuffer, args: MultiValueEncoded<ManagedBuffer>) {
         let caller = self.blockchain().get_caller();
         let user = self.users().get_or_create_user(&caller);
 
@@ -17,6 +17,7 @@ pub trait ContractModule: config::ConfigModule + events::EventsModule {
         let args_buffer = args.to_arg_buffer();
         let gas = self.blockchain().get_gas_left();
         let value = BigUint::zero();
+        let code_metadata = self.get_stage_code_metadata();
 
         if contract.is_zero() {
             let (new_contract, _) = self.send_raw().deploy_contract(gas, &value, &code, code_metadata, &args_buffer);
@@ -58,5 +59,9 @@ pub trait ContractModule: config::ConfigModule + events::EventsModule {
 
     fn is_contract_locked(&self, entity: &ManagedAddress, contract: &ManagedAddress) -> bool {
         !self.contract_locks(&entity, &contract).is_empty()
+    }
+
+    fn get_stage_code_metadata(&self) -> CodeMetadata {
+        CodeMetadata::UPGRADEABLE | CodeMetadata::READABLE | CodeMetadata::PAYABLE | CodeMetadata::PAYABLE_BY_SC
     }
 }
