@@ -1,4 +1,3 @@
-
 multiversx_sc::imports!();
 
 pub type UserId = usize;
@@ -14,6 +13,7 @@ pub trait ConfigModule {
     #[storage_mapper("devs")]
     fn developers(&self, entity: &ManagedAddress) -> UnorderedSetMapper<UserId>;
 
+    #[view(getContracts)]
     #[storage_mapper("contracts")]
     fn contracts(&self, entity: &ManagedAddress) -> UnorderedSetMapper<ManagedAddress>;
 
