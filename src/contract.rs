@@ -23,6 +23,7 @@ pub trait ContractModule: config::ConfigModule + events::EventsModule {
             let (new_contract, _) = self.send_raw().deploy_contract(gas, &value, &code, code_metadata, &args_buffer);
             self.lock_contract(&entity, &new_contract);
             self.emit_contract_staged_event(&entity, &new_contract);
+            self.contracts(&entity).insert(new_contract);
         } else {
             require!(self.contracts(&entity).contains(&contract), "contract is not registered");
 
