@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                            6
+// Endpoints:                            7
 // Async Callback (empty):               1
-// Total number of exported functions:   9
+// Total number of exported functions:  10
 
 #![no_std]
 
@@ -25,6 +25,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         removeDeveloper => remove_developer_endpoint
         stageContract => stage_contract_endpoint
         unlockStage => unlock_contract_stage_endpoint
+        getContracts => contracts
         getContractLock => contract_locks
     )
 }
